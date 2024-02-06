@@ -2,14 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CategoriesController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $category = Auth::user()->categories()->create($request->all());
+
+        return response()->json($category);
+    }
+
+    /**
+     * @param Category $category
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function update(Category $category, Request $request): JsonResponse
+    {
+        if (Auth::user()->id !== $category->user_id) {
+            abort(403);
+        }
+
+        $category->update($request->all());
 
         return response()->json($category);
     }

@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class CategoriesTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /**
      * @test
@@ -24,5 +24,26 @@ class CategoriesTest extends TestCase
 
         $this->post(route('categories.store'), $params)->assertOk();
         $this->assertDatabaseHas('categories', $params);
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function user_can_update_a_category()
+    {
+        $this->withoutExceptionHandling();
+        $this->loginUser();
+        $category = $this->categoryFactory->create();
+
+        $params = [
+            'title' => $this->faker->sentence(2),
+        ];
+
+        $this->post(route('categories.update', ['category' => $category->id]), $params)->assertOk();
+        $this->assertDatabaseHas('categories', [
+            'title' => $params['title'],
+            'description' => $category->description,
+        ]);
     }
 }
