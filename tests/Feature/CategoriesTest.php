@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
+use Database\Factories\CategoryFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -18,10 +20,7 @@ class CategoriesTest extends TestCase
     {
         $this->loginUser();
 
-        $params = [
-            'title' => 'fake title',
-            'description' => 'fake description',
-        ];
+        $params = $this->categoryFactory->raw();
 
         $this->post(route('categories.store'), $params)->assertOk();
         $this->assertDatabaseHas('categories', $params);

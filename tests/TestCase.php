@@ -3,11 +3,20 @@
 namespace Tests;
 
 use App\Models\User;
+use Database\Factories\CategoryFactory;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
+
+    protected CategoryFactory $categoryFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->categoryFactory = new CategoryFactory();
+    }
 
     /**
      * @param int|null $userId
