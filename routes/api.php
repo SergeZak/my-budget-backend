@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')
     ->group(function() {
+        Route::get('/categories', [CategoriesController::class, 'index'])->name('categories.index');
         Route::post('/categories', [CategoriesController::class, 'store'])->name('categories.store');
         Route::post('/categories/{category}', [CategoriesController::class, 'update'])->name('categories.update');
     });

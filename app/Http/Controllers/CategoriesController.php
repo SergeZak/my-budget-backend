@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoriesController extends Controller
 {
+
+    public function index(): JsonResponse
+    {
+        $categories = Auth::user()->categories()->orderBy('title')->get();
+
+        return response()->json($categories);
+    }
+
     public function store(Request $request): JsonResponse
     {
         $category = Auth::user()->categories()->create($request->all());

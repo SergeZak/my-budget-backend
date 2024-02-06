@@ -16,6 +16,34 @@ class CategoriesTest extends TestCase
      * @test
      * @return void
      */
+    public function user_can_list_categories()
+    {
+        $this->loginUser();
+        $categories = $this->categoryFactory->count(3)
+            ->create()
+            ->sortBy('title')
+            ->map(function($c) {
+                $arr = $c->toArray();
+                ksort($arr);
+                return $arr;
+            })
+            ->toArray();
+
+        $categoryList = $this->get(route('categories.index'))->assertOk()->json();
+        $categoryList = collect($categoryList)
+            ->map(function($c) {
+                ksort($c);
+                return $c;
+            })
+            ->toArray();
+
+        $this->assertEqualsCanonicalizing($categories, $categoryList);
+    }
+
+    /**
+     * @test
+     * @return void
+     */
     public function user_can_create_a_category()
     {
         $this->loginUser();
