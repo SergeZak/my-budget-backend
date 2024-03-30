@@ -24,4 +24,5 @@ Route::middleware('auth:sanctum')
         Route::get('/categories', [CategoriesController::class, 'index'])->name('categories.index');
         Route::post('/categories', [CategoriesController::class, 'store'])->name('categories.store');
         Route::post('/categories/{category}', [CategoriesController::class, 'update'])->name('categories.update');
+        Route::post('/categories/{category}/delete', [CategoriesController::class, 'delete'])->name('categories.delete');
     });

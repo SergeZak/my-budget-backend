@@ -74,4 +74,18 @@ class CategoriesTest extends TestCase
             'description' => $category->description,
         ]);
     }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function user_can_delete_a_category()
+    {
+        $this->loginUser();
+
+        $category = $this->categoryFactory->create();
+
+        $this->post(route('categories.delete', ['category' => $category->id]))->assertOk();
+        $this->assertDatabaseMissing('categories', $category->toArray());
+    }
 }

@@ -39,4 +39,21 @@ class CategoriesController extends Controller
 
         return response()->json($category);
     }
+
+
+    /**
+     * @param Category $category
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function delete(Category $category, Request $request): JsonResponse
+    {
+        if (Auth::user()->id !== $category->user_id) {
+            abort(403);
+        }
+
+        $category->delete();
+
+        return response()->json(['success' => 'ok']);
+    }
 }
