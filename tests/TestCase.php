@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\User;
+use Database\Factories\CashFlowFactory;
 use Database\Factories\CategoryFactory;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -11,11 +12,13 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
 
     protected CategoryFactory $categoryFactory;
+    protected CashFlowFactory $cashFlowFactory;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->categoryFactory = new CategoryFactory();
+        $this->cashFlowFactory = new CashFlowFactory();
     }
 
     /**

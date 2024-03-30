@@ -23,6 +23,9 @@ return new class extends Migration
             $table->float('amount');
             $table->text('note')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
         });
     }
 
