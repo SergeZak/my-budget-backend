@@ -15,9 +15,12 @@ class CashFlowsTest extends TestCase
      */
     public function user_can_list_his_cashFlows(): void
     {
+        $this->cashFlowFactory->count(10)->create();
         $this->loginUser();
-        $cashFlows = $this->cashFlowFactory->count(3)->create();
+        $this->cashFlowFactory->count(3)->create();
 
-        $this->assertEquals(1,1);
+        $cashFlows = $this->get(route('cashFlows.index'))->assertOk()->json();
+
+        $this->assertCount(3, $cashFlows);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CashFlowsController;
 use App\Http\Controllers\CategoriesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,9 +21,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')
+    ->name('categories.')
     ->group(function() {
-        Route::get('/categories', [CategoriesController::class, 'index'])->name('categories.index');
-        Route::post('/categories', [CategoriesController::class, 'store'])->name('categories.store');
-        Route::post('/categories/{category}', [CategoriesController::class, 'update'])->name('categories.update');
-        Route::post('/categories/{category}/delete', [CategoriesController::class, 'delete'])->name('categories.delete');
+        Route::get('/categories', [CategoriesController::class, 'index'])->name('index');
+        Route::post('/categories', [CategoriesController::class, 'store'])->name('store');
+        Route::post('/categories/{category}', [CategoriesController::class, 'update'])->name('update');
+        Route::post('/categories/{category}/delete', [CategoriesController::class, 'delete'])->name('delete');
+    });
+
+Route::middleware('auth:sanctum')
+    ->name('cashFlows.')
+    ->group(function() {
+        Route::get('/cash-flows', [CashFlowsController::class, 'index'])->name('index');
+        Route::post('/cash-flows', [CashFlowsController::class, 'store'])->name('store');
+        Route::post('/cash-flows/{cashFlow}', [CashFlowsController::class, 'update'])->name('update');
+        Route::post('/cash-flows/{cashFlow}/delete', [CashFlowsController::class, 'delete'])->name('delete');
     });

@@ -52,4 +52,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Category::class);
     }
+
+    /**
+     * @return HasManyAlias
+     */
+    public function cashFlows(): HasManyAlias
+    {
+        return $this->hasMany(CashFlow::class);
+    }
 }
