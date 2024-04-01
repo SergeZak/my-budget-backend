@@ -13,4 +13,11 @@ class CashFlowsController extends Controller
 
         return response()->json($cashFlows);
     }
+
+    public function store(Request $request)
+    {
+        $cashFlow = Auth::user()->cashFlows()->create($request->all());
+
+        return response()->json($cashFlow);
+    }
 }
