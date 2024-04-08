@@ -25,7 +25,7 @@ class CashFlowsController extends Controller
 
     public function update(CashFlow $cashFlow, Request $request): JsonResponse
     {
-        if (Auth::user()->id !== $cashFlow->user_id) {
+        if ($request->user()->id !== $cashFlow->user_id) {
             abort(403);
         }
 
@@ -34,14 +34,23 @@ class CashFlowsController extends Controller
         return response()->json($cashFlow);
     }
 
-    public function delete(CashFlow $cashFlow): JsonResponse
+    public function delete(CashFlow $cashFlow, Request $request): JsonResponse
     {
-        if (Auth::user()->id !== $cashFlow->user_id) {
+        if ($request->user()->id !== $cashFlow->user_id) {
             abort(403);
         }
 
         $cashFlow->delete();
 
         return response()->json(['success' => 'ok']);
+    }
+
+    public function read (CashFlow $cashFlow, Request $request): JsonResponse
+    {
+        if ($request->user()->id !== $cashFlow->user_id) {
+            abort(403);
+        }
+
+        return response()->json($cashFlow);
     }
 }

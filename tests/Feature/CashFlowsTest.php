@@ -57,7 +57,7 @@ class CashFlowsTest extends TestCase
             'amount' => $amount,
         ];
 
-        $this->post(route('cashFlows.update', ['cashFlow' => $cashFlow->id]), $params)->assertOk();
+        $this->put(route('cashFlows.update', ['cashFlow' => $cashFlow->id]), $params)->assertOk();
         $this->assertDatabaseHas('cash_flows', [
             'amount' => $amount,
             'name' => $cashFlow->name,
@@ -70,12 +70,27 @@ class CashFlowsTest extends TestCase
      */
     public function user_can_delete_a_cash_flow(): void
     {
+        $this->loginUser();
+
+        $cashFlow = $this->cashFlowFactory->create();
+
+        $this->delete(route('cashFlows.delete', ['cashFlow' => $cashFlow->id]))->assertOk();
+        $this->assertDatabaseMissing('cash_flows', $cashFlow->toArray());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function user_can_see_details_of_his_cash_flow(): void
+    {
         $this->withoutExceptionHandling();
         $this->loginUser();
 
         $cashFlow = $this->cashFlowFactory->create();
 
-        $this->post(route('cashFlows.delete', ['cashFlow' => $cashFlow->id]))->assertOk();
-        $this->assertDatabaseMissing('cash_flows', $cashFlow->toArray());
+        $this->get(route('cashFlows.read', ['cashFlow' => $cashFlow->id]))
+            ->assertOk()
+            ->assertSeeText($cashFlow->name);
     }
 }

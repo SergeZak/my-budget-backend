@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')
     ->group(function() {
         Route::get('/cash-flows', [CashFlowsController::class, 'index'])->name('index');
         Route::post('/cash-flows', [CashFlowsController::class, 'store'])->name('store');
-        Route::post('/cash-flows/{cashFlow}', [CashFlowsController::class, 'update'])->name('update');
-        Route::post('/cash-flows/{cashFlow}/delete', [CashFlowsController::class, 'delete'])->name('delete');
+        Route::get('/cash-flows/{cashFlow}', [CashFlowsController::class, 'read'])->name('read');
+        Route::put('/cash-flows/{cashFlow}', [CashFlowsController::class, 'update'])->name('update');
+        Route::delete('/cash-flows/{cashFlow}/delete', [CashFlowsController::class, 'delete'])->name('delete');
     });
