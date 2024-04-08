@@ -47,7 +47,6 @@ class CashFlowsTest extends TestCase
      */
     public function user_can_update_a_cash_flow(): void
     {
-        $this->withoutExceptionHandling();
         $this->loginUser();
 
         $cashFlow = $this->cashFlowFactory->create();
@@ -63,5 +62,20 @@ class CashFlowsTest extends TestCase
             'amount' => $amount,
             'name' => $cashFlow->name,
         ]);
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function user_can_delete_a_cash_flow(): void
+    {
+        $this->withoutExceptionHandling();
+        $this->loginUser();
+
+        $cashFlow = $this->cashFlowFactory->create();
+
+        $this->post(route('cashFlows.delete', ['cashFlow' => $cashFlow->id]))->assertOk();
+        $this->assertDatabaseMissing('cash_flows', $cashFlow->toArray());
     }
 }
