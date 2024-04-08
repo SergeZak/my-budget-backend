@@ -40,4 +40,28 @@ class CashFlowsTest extends TestCase
 
         $this->assertDatabaseHas('cash_flows', $cashFlow);
     }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function user_can_update_a_cash_flow(): void
+    {
+        $this->withoutExceptionHandling();
+        $this->loginUser();
+
+        $cashFlow = $this->cashFlowFactory->create();
+
+        $amount = $this->faker->randomFloat(nbMaxDecimals: 2, min: 10, max: 1000);
+
+        $params = [
+            'amount' => $amount,
+        ];
+
+        $this->post(route('cashFlows.update', ['cashFlow' => $cashFlow->id]), $params)->assertOk();
+        $this->assertDatabaseHas('cash_flows', [
+            'amount' => $amount,
+            'name' => $cashFlow->name,
+        ]);
+    }
 }
